@@ -54,7 +54,7 @@ mkdir -p data
 export $(grep -v '^#' .env | xargs)
 ```
 
-3. Installez la commande `make` dans votre environnement virtuel :
+3. Installez le helper `make` dans votre environnement virtuel :
 
 ```bash
 pip install -e .
@@ -66,13 +66,8 @@ pip install -e .
 make up
 ```
 
-> Sur Windows, si `make` n’est pas installé globalement, `make.cmd up` fonctionne aussi depuis la racine du projet.
-
-> Si `make` n’est toujours pas disponible, utilisez le script PowerShell :
-
-```powershell
-.\run-local.ps1
-```
+> Le fichier `Makefile` reste le point d’entrée principal des targets.
+> Sur Windows, si le binaire `make` n’est pas disponible, installez le package dans le venv puis utilisez `make.cmd up`.
 
 4. Ouvrez l’interface Kestra :
 
