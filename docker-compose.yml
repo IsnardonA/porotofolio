@@ -1,0 +1,38 @@
+services:
+  kestra:
+    image: kestra/kestra:latest-full
+    platform: linux/amd64
+    container_name: kestra
+    command: server standalone --config /app/config/application.yml
+    ports:
+      - '8080:8080'
+    volumes:
+      # On monte le dossier contenant application.yml dans le dossier par défaut de Kestra
+      - ./kestra:/app/config
+      # On crée le dossier de stockage pour la persistance
+      - kestra_storage:/app/storage
+    environment:
+      JAVA_OPTS: "-Xmx2g"
+    #restart: unless-stopped
+
+volumes:
+  kestra_storage:
+
+  # worker:
+  #   build:
+  #     context: .
+  #     dockerfile: docker/Dockerfile
+  #   container_name: data-pipeline-worker
+  #   depends_on:
+  #     - kestra
+  #   env_file:
+  #     - .env
+  #   environment:
+  #     DB_PATH: /data/warehouse.duckdb
+  #     API_BASE_URL: https://jsonplaceholder.typicode.com
+  #   volumes:
+  #     - ./data:/data
+  #     - ./src:/app:ro
+  #   command: ["bash", "-lc", "cd /app && python src/dlt_pipelines/ingest_api.py"]
+  #   restart: on-failure
+

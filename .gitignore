@@ -1,0 +1,29 @@
+# Local files
+*.duckdb
+*.pyc
+__pycache__/
+.DS_Store
+.env
+.env.*
+credentials/
+data/
+
+# Terraform
+.terraform/
+terraform.tfstate*
+terraform.tfstate.backup
+.terraform.lock.hcl
+
+# dbt
+target/
+dbt_packages/
+
+# Docker
+docker-compose.override.yml
+
+# IDEs
+.vscode/
+.idea/
+
+# Logs
+*.log

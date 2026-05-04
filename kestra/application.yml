@@ -1,0 +1,22 @@
+kestra:
+  repository:
+    type: h2
+  queue:
+    type: h2
+  storage:
+    type: local
+    local:
+      basePath: /app/storage
+
+# Cette section corrige l'erreur "No bean of type MeterRegistry"
+micronaut:
+  metrics:
+    enabled: true
+    export:
+      prometheus:
+        enabled: false # On l'active mais on n'exporte rien pour l'instant
+
+management:
+  endpoints:
+    all:
+      enabled: true
