@@ -1,12 +1,20 @@
+datasources:
+  postgres:
+    url: jdbc:postgresql://host.docker.internal:5432/kestra
+    driver-class-name: org.postgresql.Driver
+    username: kestra
+    password: kestra
 kestra:
+  server:
+    port: 8080
   repository:
-    type: h2
+    type: postgres
   queue:
-    type: h2
+    type: postgres
   storage:
     type: local
     local:
-      basePath: /app/storage
+      base-path: "/app/storage"
 
 # Cette section corrige l'erreur "No bean of type MeterRegistry"
 micronaut:

@@ -9,3 +9,6 @@ description = "Local data pipeline project for Docker-only usage"
 requires-python = ">=3.11"
 dependencies = []
 scripts = { make = "portfolio_make:main" }
+
+[tool.setuptools]
+py-modules = ["portfolio_make"]

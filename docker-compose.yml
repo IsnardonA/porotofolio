@@ -1,5 +1,26 @@
 services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: kestra-postgres
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_DB: kestra
+      POSTGRES_USER: kestra
+      POSTGRES_PASSWORD: kestra
+      PGPASSWORD: kestra
+    volumes:
+      - kestra_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kestra -d kestra"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
   kestra:
+    depends_on:
+      postgres:
+        condition: service_healthy
     image: kestra/kestra:latest-full
     platform: linux/amd64
     container_name: kestra
@@ -8,15 +29,12 @@ services:
       - '8080:8080'
     volumes:
       # On monte le dossier contenant application.yml dans le dossier par défaut de Kestra
-      - ./kestra:/app/config
-      # On crée le dossier de stockage pour la persistance
-      - kestra_storage:/app/storage
+      - ./kestra/config:/app/config
+      - ./data:/data
+      - ./scripts:/scripts
     environment:
       JAVA_OPTS: "-Xmx2g"
     #restart: unless-stopped
-
-volumes:
-  kestra_storage:
 
   # worker:
   #   build:
@@ -35,4 +53,8 @@ volumes:
   #     - ./src:/app:ro
   #   command: ["bash", "-lc", "cd /app && python src/dlt_pipelines/ingest_api.py"]
   #   restart: on-failure
+
+volumes:
+  kestra_storage:
+  kestra_postgres_data:
 
